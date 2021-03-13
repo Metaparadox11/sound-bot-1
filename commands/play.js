@@ -19,30 +19,34 @@ module.exports = {
           // when in the voice channel
 
           // Create an instance of a VoiceBroadcast
-          //const broadcast = client.voice.createBroadcast();
+          const broadcast = client.voice.createBroadcast();
           // Play audio on the broadcast
-
+          const dispatcher = connection.play(file_path);
 
           let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
           if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
           if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
-          const connection = await voiceChannel.join();
-          const dispatcher = connection.play(file_path);
+          const connection = await voiceChannel.join().then(async (connection) => {
+            // Play this broadcast across multiple connections (subscribe to the broadcast)
+            await connection.play(broadcast);
 
-          // Always remember to handle errors
-          dispatcher.on('error', () => {
-            message.reply(`There was a problem playing the file.`));
-            voiceChannel.leave();
-          });
-
-          dispatcher.on('start', () => {
-              console.log('mp3 is now playing!');
-          });
-
-          dispatcher.on('finish', () => {
-              console.log('mp3 has finished playing!');
+            // Always remember to handle errors
+            await dispatcher.on('error', () => {
+              message.reply(`There was a problem playing the file.`));
               voiceChannel.leave();
+            });
+
+            await dispatcher.on('start', () => {
+                console.log('mp3 is now playing!');
+            });
+
+            await dispatcher.on('finish', () => {
+                console.log('mp3 has finished playing!');
+                voiceChannel.leave();
+            });
           });
+
+
 
         } else {
           return message.reply('You need to attach an .mp3 file to your message.');
