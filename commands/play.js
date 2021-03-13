@@ -23,7 +23,7 @@ module.exports = {
           // Play audio on the broadcast
           const dispatcher = broadcast.play(file_path);
 
-          let voiceChannel = member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
+          let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
           if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
           if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
           const connection = await voiceChannel.join();
