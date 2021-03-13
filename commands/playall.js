@@ -31,7 +31,7 @@ module.exports = {
 				for (let i = 0; i < voiceChannels.length; i++) {
 					let members = voiceChannels[i].members;
 					for (let j = 0; j < members.length; j++) {
-						members[i].connection.play(broadcast);
+						members[i].voice.connection.play(broadcast);
 					}
 				}
 
