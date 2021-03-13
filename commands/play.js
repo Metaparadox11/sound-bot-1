@@ -23,7 +23,7 @@ module.exports = {
 
       async function play(voiceChannel) {
         await voiceChannel.join().then(async (connection) => {
-          let dispatcher = await connection.playFile(file_path);
+          let dispatcher = await connection.play(file_path);
 
           // Always remember to handle errors
           await dispatcher.on('error', () => {
