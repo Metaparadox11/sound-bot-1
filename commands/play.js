@@ -19,11 +19,24 @@ module.exports = {
           const connection = await voiceChannel.join();
 
           // when in the voice channel
-          // Create a dispatcher
-          const dispatcher = connection.play(file_path);
+
+          // Create an instance of a VoiceBroadcast
+          const broadcast = client.voice.createBroadcast();
+          // Play audio on the broadcast
+          const dispatcher = broadcast.play(file_path);
+          // Play this broadcast across multiple connections (subscribe to the broadcast)
+          connection.play(broadcast);
 
           // Always remember to handle errors
           dispatcher.on('error', message.reply(`Error playing file.`));
+
+          dispatcher.on('start', () => {
+              console.log('mp3 is now playing!');
+          });
+
+          dispatcher.on('finish', () => {
+              console.log('mp3 has finished playing!');
+          });
 
         } else {
           return message.reply('You need to attach a .wav file to your message.');
