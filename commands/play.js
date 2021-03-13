@@ -26,7 +26,7 @@ module.exports = {
           let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
           if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
           if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
-          const connection = await voiceChannel.join().then(async (connection) => {
+          const connection1 = await voiceChannel.join().then(async (connection) => {
             // Play this broadcast across multiple connections (subscribe to the broadcast)
             await connection.play(broadcast);
 
