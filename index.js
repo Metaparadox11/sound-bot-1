@@ -10,8 +10,8 @@ const { OpusEncoder } = require('@discordjs/opus');
 const encoder = new OpusEncoder(48000, 2);
 
 // Encode and decode.
-const encoded = encoder.encode(buffer);
-const decoded = encoder.decode(encoded);
+//const encoded = encoder.encode(buffer);
+//const decoded = encoder.decode(encoded);
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
