@@ -23,7 +23,7 @@ module.exports = {
           const dispatcher = connection.play(file_path);
 
           // Always remember to handle errors
-          dispatcher.on('error', return message.reply(`Error playing file.`));
+          dispatcher.on('error', message.reply(`Error playing file.`));
 
         } else {
           return message.reply('You need to attach a .wav file to your message.');
