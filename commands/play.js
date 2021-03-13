@@ -47,7 +47,7 @@ module.exports = {
         }
       }
       catch (e) {
-        return message.reply(`Error reading file.`);
+        console.error;
       }
 	},
 };
