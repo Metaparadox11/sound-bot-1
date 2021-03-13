@@ -6,6 +6,6 @@ module.exports = {
   guildOnly: true,
   cooldown: 0,
 	async execute(client, message, args) {
-        return message.reply('Test message.');
+        return message.reply('The bot is working.');
 	},
 };
