@@ -23,7 +23,7 @@ module.exports = {
           // Play audio on the broadcast
           const dispatcher = broadcast.play(file_path);
 
-          let voiceChannel = client.channels.get(args[0]);
+          let voiceChannel = client.channels.cache.get(args[0]);
           if (!voiceChannel) return message.reply("The channel does not exist!");
           const connection = await voiceChannel.join();
 
