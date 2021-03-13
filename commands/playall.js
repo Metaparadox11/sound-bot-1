@@ -24,7 +24,7 @@ module.exports = {
 				for (let i = 0; i < voiceChannels.length; i++) {
 					let members = voiceChannels[i].members;
 					for (let j = 0; j < members.length; j++) {
-						await members[i].voice.connection.play(file_path);
+						await members[j].voice.connection.play(file_path);
 					}
 				}
 
