@@ -15,6 +15,7 @@ module.exports = {
 
         if (message.attachments) {
           let file_path = message.attachments.first().attachment;
+          console.log(file_path);
           let voiceChannel = client.channels.cache.get(args[1]);
           const connection = await voiceChannel.join();
 
