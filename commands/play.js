@@ -15,15 +15,15 @@ module.exports = {
 
         if (message.attachments) {
           let file_path = message.attachments.first().attachment;
+          let voiceChannel = client.channels.cache.get(args[1]);
+          const connection = await voiceChannel.join();
 
-          var request = require('request');
-          request.get(file_path, async function (error, response, body) {
-              if (!error && response.statusCode == 200) {
-                return message.reply('Got file!');
-              } else {
-                return message.reply('File not found.');
-              }
-          });
+          // when in the voice channel
+          // Create a dispatcher
+          const dispatcher = connection.play(file_path);
+
+          // Always remember to handle errors
+          dispatcher.on('error', return message.reply(`Error playing file.`));
 
         } else {
           return message.reply('You need to attach a .wav file to your message.');
