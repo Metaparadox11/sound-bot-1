@@ -15,9 +15,6 @@ module.exports = {
 
         if (message.attachments) {
           let file_path = message.attachments.first().attachment;
-          //console.log(file_path);
-          let voiceChannel = client.channels.cache.get(args[0]);
-          const connection = await voiceChannel.join();
 
           // when in the voice channel
 
@@ -25,6 +22,11 @@ module.exports = {
           const broadcast = client.voice.createBroadcast();
           // Play audio on the broadcast
           const dispatcher = broadcast.play(file_path);
+
+          let voiceChannel = client.channels.get(args[0]);
+          if (!voiceChannel) return message.reply("The channel does not exist!");
+          const connection = await voiceChannel.join();
+
           // Play this broadcast across multiple connections (subscribe to the broadcast)
           connection.play(broadcast);
 
@@ -41,7 +43,7 @@ module.exports = {
           });
 
         } else {
-          return message.reply('You need to attach a .wav file to your message.');
+          return message.reply('You need to attach an .mp3 file to your message.');
         }
       }
       catch (e) {
