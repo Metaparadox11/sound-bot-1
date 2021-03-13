@@ -35,7 +35,7 @@ module.exports = {
               console.log('mp3 is now playing!');
           });
 
-          await dispatcher.on('finished', function () {
+          await dispatcher.on('finish', function () {
             console.log('mp3 has finished playing!');
             voiceChannel.leave();
           });
