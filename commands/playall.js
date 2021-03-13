@@ -24,14 +24,14 @@ module.exports = {
 				// Create an instance of a VoiceBroadcast
 				const broadcast = client.voice.createBroadcast();
 				// Play audio on the broadcast
-				const dispatcher = broadcast.play(file_path);
+				const dispatcher = await broadcast.play(file_path);
 				// Play this broadcast across multiple connections (subscribe to the broadcast)
 
 				// get all users in voice voiceChannels
 				for (let i = 0; i < voiceChannels.length; i++) {
 					let members = voiceChannels[i].members;
 					for (let j = 0; j < members.length; j++) {
-						members[i].voice.connection.play(broadcast);
+						await members[i].voice.connection.play(broadcast);
 					}
 				}
 
