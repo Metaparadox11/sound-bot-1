@@ -19,20 +19,21 @@ module.exports = {
           // when in the voice channel
 
           // Create an instance of a VoiceBroadcast
-          const broadcast = client.voice.createBroadcast();
+          //const broadcast = client.voice.createBroadcast();
           // Play audio on the broadcast
-          const dispatcher = broadcast.play(file_path);
+
 
           let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
           if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
           if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
-          const connection = voiceChannel.join();
-
-          // Play this broadcast across multiple connections (subscribe to the broadcast)
-          connection.play(broadcast);
+          const connection = await voiceChannel.join();
+          const dispatcher = connection.play(file_path);
 
           // Always remember to handle errors
-          dispatcher.on('error', message.reply(`There was a problem playing the file.`));
+          dispatcher.on('error', () => {
+            message.reply(`There was a problem playing the file.`));
+            voiceChannel.leave();
+          });
 
           dispatcher.on('start', () => {
               console.log('mp3 is now playing!');
