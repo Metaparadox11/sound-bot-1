@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix } = require('./config.json');
@@ -75,4 +76,4 @@ client.on('message', async message => {
 		//await sequelize.sync({ force: true });
 });
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
