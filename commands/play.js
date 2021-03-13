@@ -42,7 +42,11 @@ module.exports = {
         });
       }
 
-      play(voiceChannel);
+      try {
+        play(voiceChannel);
+      } catch (e) {
+        console.log(e);
+      }
 
 	},
 };
