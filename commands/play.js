@@ -15,8 +15,8 @@ module.exports = {
 
         if (message.attachments) {
           let file_path = message.attachments.first().attachment;
-          console.log(file_path);
-          let voiceChannel = client.channels.cache.get(args[1]);
+          //console.log(file_path);
+          let voiceChannel = client.channels.cache.get(args[0]);
           const connection = await voiceChannel.join();
 
           // when in the voice channel
@@ -37,6 +37,7 @@ module.exports = {
 
           dispatcher.on('finish', () => {
               console.log('mp3 has finished playing!');
+              voiceChannel.leave();
           });
 
         } else {
