@@ -32,7 +32,7 @@ module.exports = {
 
             // Always remember to handle errors
             await dispatcher.on('error', () => {
-              message.reply(`There was a problem playing the file.`));
+              message.reply(`There was a problem playing the file.`);
               voiceChannel.leave();
             });
 
