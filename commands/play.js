@@ -10,50 +10,39 @@ module.exports = {
         return message.reply(`You don't have GM permissions.`);
       }
 
-      try {
-        const fs = require('fs');
+      let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
+      if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
+      if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
 
-        if (message.attachments) {
-          let file_path = message.attachments.first().attachment;
+      let file_path = "";
+      if (message.attachments) {
+        file_path = message.attachments.first().attachment;
+      } else {
+        return message.reply("You need to attach an mp3.");
+      }
 
-          // when in the voice channel
+      async function play(voiceChannel) {
+        await voiceChannel.join().then(async (connection) => {
+          let dispatcher = await connection.playFile(file_path);
 
-          // Create an instance of a VoiceBroadcast
-          const broadcast = client.voice.createBroadcast();
-          // Play audio on the broadcast
-          const dispatcher = connection.play(file_path);
-
-          let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
-          if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
-          if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
-          const connection1 = await voiceChannel.join().then(async (connection) => {
-            // Play this broadcast across multiple connections (subscribe to the broadcast)
-            await connection.play(broadcast);
-
-            // Always remember to handle errors
-            await dispatcher.on('error', () => {
-              message.reply(`There was a problem playing the file.`);
-              voiceChannel.leave();
-            });
-
-            await dispatcher.on('start', () => {
-                console.log('mp3 is now playing!');
-            });
-
-            await dispatcher.on('finish', () => {
-                console.log('mp3 has finished playing!');
-                voiceChannel.leave();
-            });
+          // Always remember to handle errors
+          await dispatcher.on('error', () => {
+            message.reply(`There was a problem playing the file.`);
+            voiceChannel.leave();
           });
 
+          await dispatcher.on('start', () => {
+              console.log('mp3 is now playing!');
+          });
 
+          await dispatcher.on('end', function () {
+            console.log('mp3 has finished playing!');
+            voiceChannel.leave();
+          });
+        });
+      }
 
-        } else {
-          return message.reply('You need to attach an .mp3 file to your message.');
-        }
-      }
-      catch (e) {
-        console.log(e);
-      }
+      play(voiceChannel);
+
 	},
 };
