@@ -31,7 +31,7 @@ module.exports = {
           connection.play(broadcast);
 
           // Always remember to handle errors
-          dispatcher.on('error', message.reply(`Error playing file.`));
+          dispatcher.on('error', console.error);
 
           dispatcher.on('start', () => {
               console.log('mp3 is now playing!');
