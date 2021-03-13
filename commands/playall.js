@@ -20,11 +20,15 @@ module.exports = {
         return message.reply("You need to attach an mp3.");
       }
 
-      async function play(voiceChannels) {
+			async function playTo(member, file_path) {
+				await member.voice.connection.play(file_path);
+			}
+
+      function play(voiceChannels, file_path) {
 				for (let i = 0; i < voiceChannels.length; i++) {
 					let members = voiceChannels[i].members;
 					for (let j = 0; j < members.length; j++) {
-						await members[j].voice.connection.play(file_path);
+						playTo(members[j], file_path);
 					}
 				}
 
