@@ -10,8 +10,13 @@ module.exports = {
         return message.reply(`You don't have GM permissions.`);
       }
 
-      let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === args[0]);
-      if (!voiceChannel) return message.reply(`The channel ${args[0]} does not exist!`);
+      let vcName = args[0];
+      for (let i = 1; i < args.length; i++) {
+        vcName += ' ' + args[i];
+      }
+
+      let voiceChannel = message.member.guild.channels.cache.find(voiceChannel => voiceChannel.name === vcName);
+      if (!voiceChannel) return message.reply(`The channel ${vcName} does not exist!`);
       if (voiceChannel.type !== 'voice') return message.reply(`That channel isn't a voice channel.`);
 
       let file_path = "";
